@@ -1,4 +1,4 @@
-{% extends 'apps/auth/base.html' %}
+{% extends 'auth/base.html' %}
 {% load static %}
 
 {% block main_content %}
@@ -12,9 +12,10 @@
                 <div class="login-title">
                     <h2 class="text-center text-primary">Register</h2>
                 </div>
-                <form>
+                <form action="{% url 'register_view' %}" method="post">
+                    {% csrf_token %}
                     <div class="input-group custom">
-                        <input type="text" class="form-control form-control-lg" placeholder="First Name"/>
+                        <input type="text" class="form-control form-control-lg" name="first_name" placeholder="First Name"/>
                         <div class="input-group-append custom">
                             <span class="input-group-text">
                                 <i class="icon-copy dw dw-user1">
@@ -23,19 +24,19 @@
                         </div>
                     </div>
                     <div class="input-group custom">
-                        <input type="email" class="form-control form-control-lg" placeholder="Email"/>
+                        <input type="email" class="form-control form-control-lg" name="email" placeholder="Email"/>
                         <div class="input-group-append custom"><span class="input-group-text">
                             <i class="icon-copy dw dw-user1"></i></span>
                         </div>
                     </div>
                     <div class="input-group custom">
-                        <input type="password" class="form-control form-control-lg" placeholder="Password"/>
+                        <input type="password" class="form-control form-control-lg" name="password" placeholder="Password"/>
                         <div class="input-group-append custom">
                             <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                         </div>
                     </div>
                     <div class="input-group custom">
-                        <input type="password" class="form-control form-control-lg" placeholder="Confirm Password"/>
+                        <input type="password" class="form-control form-control-lg" name="confirm_password" placeholder="Confirm Password"/>
                         <div class="input-group-append custom">
                             <span class="input-group-text"><i class="dw dw-padlock1"></i></span>
                         </div>
@@ -55,7 +56,7 @@
                                 use code for form submit
                                 <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
                             -->
-                                <a class="btn btn-primary btn-lg btn-block" href="#">Register</a>
+                                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Register">
                             </div>
                             <div class="font-16 weight-600 pt-10 pb-10 text-center"
                                  data-color="#707373">
