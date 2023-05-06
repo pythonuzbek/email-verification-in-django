@@ -7,12 +7,14 @@ from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
 from django.views.generic import TemplateView
 
+from shared.decorators import anonymous_required
 from users.forms import RegisterForm, LoginForm
 from users.models import User
 from users.send_to_email import send_email
 from users.token import account_activation_token
 
 
+@anonymous_required(redirect_url='/')
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)
@@ -38,23 +40,25 @@ def login_view(request):
     return render(request, 'auth/login.html')
 
 
+@anonymous_required(redirect_url='/')
 def register_view(request):
+    context = {}
     if request.method == 'POST':
         forms = RegisterForm(request.POST)
         if forms.is_valid():
             forms.save()
-            send_email(request,forms.data.get('email'),type_='register')
-            # return redirect('login_view')
+            send_email(request, forms.data.get('email'), type_='register')
+            return redirect('login_view')
         else:
-            print(forms.errors)
-    return render(request, 'auth/register.html')
+            context['errors'] = forms.errors
+    return render(request, 'auth/register.html', context)
 
 
 def forgot_view(request):
     if request.method == 'POST':
         data = request.POST
         if User.objects.filter(email=data['email']).exists():
-            send_email(request,data['email'],type_='forgot')
+            send_email(request, data['email'], type_='forgot')
         else:
             messages.add_message(
                 request,
@@ -62,8 +66,6 @@ def forgot_view(request):
                 message='this email did not registered'
             )
     return render(request, 'auth/forgot-password.html')
-
-
 
 
 def register_activate_email(request, uid, token):
@@ -99,7 +101,4 @@ def forgot_activate_email(request, uid, token):
 
 
 def reset_password(request):
-    return render(request,'auth/reset-password.html')
-
-
-
+    return render(request, 'auth/reset-password.html')

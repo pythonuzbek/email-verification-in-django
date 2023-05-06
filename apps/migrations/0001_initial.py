@@ -10,7 +10,6 @@ import uuid
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -27,6 +26,8 @@ class Migration(migrations.Migration):
                 ('discount', models.SmallIntegerField(default=0)),
                 ('detail', ckeditor.fields.RichTextField()),
                 ('quantity', models.PositiveIntegerField(default=0)),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='apps.category')),
+                ('author', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -38,7 +39,9 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('image', models.ImageField(upload_to=shared.models.upload_name)),
-                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='apps.product')),
+                ('type', models.CharField(choices=[('images', 'Rasmlar'), ('documents', 'Dokumentlar'), ('videos', 'Videolar')], max_length=15)),
+                ('product', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images',
+                                              to='apps.product')),
             ],
             options={
                 'abstract': False,
@@ -67,7 +70,9 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(editable=False)),
                 ('tree_id', models.PositiveIntegerField(db_index=True, editable=False)),
                 ('level', models.PositiveIntegerField(editable=False)),
-                ('parent', mptt.fields.TreeForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='children', to='apps.category')),
+                ('parent',
+                 mptt.fields.TreeForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                            related_name='children', to='apps.category')),
             ],
             options={
                 'abstract': False,

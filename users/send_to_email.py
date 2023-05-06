@@ -1,5 +1,6 @@
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
+from django.shortcuts import get_object_or_404, get_list_or_404
 from django.template.loader import render_to_string
 from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode
@@ -10,7 +11,8 @@ from users.token import account_activation_token
 
 
 def send_email(request, email: str, type_):
-    user = User.objects.get(email=email)
+    user = get_object_or_404(User, email=email)
+    # user = User.objects.get(email=email)
     subject = 'Activate your account'
     current_site = get_current_site(request)
     from_email = EMAIL_HOST_USER

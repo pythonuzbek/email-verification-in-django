@@ -17,6 +17,7 @@ pillow = "^9.5.0"
 fixtures = "^4.0.1"
 pyaml = "^23.5.6"
 pymal = "^0.6"
+pyyaml = "^6.0"
 
 
 [build-system]

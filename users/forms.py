@@ -1,6 +1,9 @@
+from django.contrib.auth import password_validation
+from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.hashers import make_password
 from django.core.exceptions import ValidationError
 from django.forms import ModelForm, CharField, PasswordInput, Form
+from django.shortcuts import get_object_or_404
 
 from users.models import User
 
@@ -12,11 +15,26 @@ class RegisterForm(ModelForm):
         model = User
         fields = ('first_name', 'email', 'password')
 
+    def clean_email(self):
+        email = self.cleaned_data.get("email")
+        if email and self._meta.model.objects.filter(email__iexact=email).exists():
+            self._update_errors(
+                ValidationError(
+                    {
+                        "email": self.instance.unique_error_message(
+                            self._meta.model, ["email"]
+                        )
+                    }
+                )
+            )
+        return email
+
     def clean_password(self):
         password = self.data.get('password')
         confirm_password = self.data.get('confirm_password')
         if password != confirm_password:
             raise ValidationError("Password do not match")
+        password_validation.validate_password(password)
         return make_password(password)
 
 
@@ -24,8 +42,8 @@ class LoginForm(Form):
     def clean_password(self):
         email = self.data.get('email')
         password = self.data.get('password')
-        user = User.objects.get(email=email)
-        if not user or user.check_password(password):
+        user = get_object_or_404(User, email=email)
+        if user.check_password(password):
             raise ValidationError("Password or Username Do Not Match")
         return password
 
@@ -36,4 +54,3 @@ class ResetPassword(Form):
         confirm_password = self.data.get('confirm_password')
         if password != confirm_password:
             raise ValidationError('Password Do Not Match')
-        user = User.objects.get()

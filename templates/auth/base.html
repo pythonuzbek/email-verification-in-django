@@ -1,17 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
-<html>
 <head>
     <!-- Basic Page Info -->
     <meta charset="utf-8"/>
-    <title>DeskApp - Bootstrap Admin Dashboard HTML Template</title>
+    <title>{% block title %}{% endblock %}</title>
 
     <!-- Site favicon -->
-    <link
-            rel="apple-touch-icon"
-            sizes="180x180"
-            href="{% static 'users/vendors/images/apple-touch-icon.png' %}"
-    />
+    <link rel="apple-touch-icon"
+          sizes="180x180"
+          href="{% static 'users/vendors/images/apple-touch-icon.png' %}"/>
     <link
             rel="icon"
             type="image/png"
@@ -41,7 +38,7 @@
 <div class="login-header box-shadow">
     <div class="container-fluid d-flex justify-content-between align-items-center">
         <div class="brand-logo">
-            <a href="login.html">
+            <a href="{% url 'login_view' %}">
                 <img src="{% static 'users/vendors/images/deskapp-logo.svg' %}" alt=""/>
             </a>
         </div>

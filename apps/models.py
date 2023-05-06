@@ -1,7 +1,7 @@
 from ckeditor.fields import RichTextField
 from django.db.models import (CASCADE, CharField, ForeignKey, ImageField,
                               Model, PositiveIntegerField, SmallIntegerField,
-                              TextField)
+                              TextField, TextChoices)
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
@@ -11,9 +11,6 @@ from shared.models import BaseDateModel, BaseIDModel, upload_name
 class Category(MPTTModel, BaseIDModel):
     name = CharField(max_length=255)
     parent = TreeForeignKey('self', CASCADE, 'children', null=True, blank=True)
-
-    class MPTTMeta:
-        order_insertion_by = ('name',)
 
     def __str__(self):
         return self.name
@@ -28,20 +25,23 @@ class Product(BaseIDModel, BaseDateModel):
     category = ForeignKey('apps.Category', CASCADE)
     author = ForeignKey('users.User', CASCADE)
 
+    def __str__(self):
+        return self.name
+
     @property
     def discount_price(self):
         return self.price - self.price * self.discount // 100
 
 
 class ProductImage(BaseIDModel):
-    image = ImageField(upload_to='media/')
-    product = ForeignKey('apps.Product', CASCADE,'images')
+    class Type(TextChoices):
+        IMAGES = 'images', 'Rasmlar'
+        DOCUMENTS = 'documents', 'Dokumentlar'
+        VIDEOS = 'videos', 'Videolar'
 
-    def save(self, *args, **kwargs):
-        if not self.pk:
-            filename = self.product.id
-            self.image.name = filename
-        super().save(*args, **kwargs)
+    image = ImageField(upload_to=upload_name)
+    product = ForeignKey('apps.Product', CASCADE, 'images')
+    type = CharField(max_length=15, choices=Type.choices)
 
 
 class Comment(BaseIDModel, BaseDateModel):
