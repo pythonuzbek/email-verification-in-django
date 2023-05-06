@@ -1,8 +1,7 @@
-{% extends 'apps/auth/base.html' %}
+{% extends 'auth/base.html' %}
 {% load static %}
 
 {% block main_content %}
-
     <div class="row align-items-center">
         <div class="col-md-6 col-lg-7">
             <img src="{% static 'users/vendors/images/login-page-img.png' %}" alt=""/>
@@ -12,9 +11,17 @@
                 <div class="login-title">
                     <h2 class="text-center text-primary">Login</h2>
                 </div>
-                <form>
+            {% if messages %}
+                {% for message in messages %}
+                    <p style="font-size: 20px; text-align: center; color: red">
+                        {{ message }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+                <form action="{% url 'login_view' %}" method="post">
+                    {% csrf_token %}
                     <div class="input-group custom">
-                        <input type="text"
+                        <input type="email" name="email"
                                 class="form-control form-control-lg"
                                 placeholder="Email"/>
                         <div class="input-group-append custom"><span class="input-group-text"><i
@@ -22,7 +29,7 @@
                         </div>
                     </div>
                     <div class="input-group custom">
-                        <input type="password" class="form-control form-control-lg" placeholder="**********"/>
+                        <input type="password" class="form-control form-control-lg" name="password" placeholder="**********"/>
                         <div class="input-group-append custom"><span class="input-group-text">
                             <i class="dw dw-padlock1"></i></span>
                         </div>
@@ -49,7 +56,7 @@
                                 use code for form submit
                                 <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
                             -->
-                                <a class="btn btn-primary btn-lg btn-block" href="#">Sign In</a>
+                                <input class="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
                             </div>
                             <div class="font-16 weight-600 pt-10 pb-10 text-center"
                                  data-color="#707373">

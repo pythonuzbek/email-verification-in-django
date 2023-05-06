@@ -21,11 +21,23 @@ class Product(BaseIDModel, BaseDateModel):
     discount = SmallIntegerField(default=0)
     detail = RichTextField()
     quantity = PositiveIntegerField(default=0)
+    category = ForeignKey('apps.Category', CASCADE)
+    author = ForeignKey('users.User', CASCADE)
+
+    @property
+    def discount_price(self):
+        return self.price - self.price * self.discount // 100
 
 
 class ProductImage(BaseIDModel):
-    image = ImageField(upload_to=upload_name)
-    product = ForeignKey('apps.Product', CASCADE)
+    image = ImageField(upload_to='media/')
+    product = ForeignKey('apps.Product', CASCADE,'images')
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            filename = self.product.id
+            self.image.name = filename
+        super().save(*args, **kwargs)
 
 
 class Comment(BaseIDModel, BaseDateModel):
