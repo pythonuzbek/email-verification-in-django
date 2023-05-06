@@ -1,10 +1,11 @@
 from ckeditor.fields import RichTextField
-from django.db.models import CharField, Model, CASCADE, ForeignKey, PositiveIntegerField, ImageField, TextField, \
-    SmallIntegerField
+from django.db.models import (CASCADE, CharField, ForeignKey, ImageField,
+                              Model, PositiveIntegerField, SmallIntegerField,
+                              TextField)
 from mptt.fields import TreeForeignKey
 from mptt.models import MPTTModel
 
-from shared.models import BaseIDModel, BaseDateModel, upload_name
+from shared.models import BaseDateModel, BaseIDModel, upload_name
 
 
 class Category(MPTTModel, BaseIDModel):
@@ -13,6 +14,9 @@ class Category(MPTTModel, BaseIDModel):
 
     class MPTTMeta:
         order_insertion_by = ('name',)
+
+    def __str__(self):
+        return self.name
 
 
 class Product(BaseIDModel, BaseDateModel):

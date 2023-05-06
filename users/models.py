@@ -1,6 +1,8 @@
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import PermissionsMixin, UserManager, AbstractUser
-from django.db.models import CharField, EmailField, BooleanField, DateTimeField
+from django.contrib.auth.models import PermissionsMixin
+from django.db.models import BooleanField, CharField, DateTimeField, EmailField
+
+from shared.models import CustomUserManager
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -21,8 +23,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         )
     )
     date_joined = DateTimeField('date joined', auto_now_add=True)
-    objects = UserManager()
+    objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['']
