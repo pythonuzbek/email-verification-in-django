@@ -17,7 +17,7 @@ hometask
 1. register ✅
 2. forgot-password ✅
 3. verification email ✅
-4. product ni delete qilganda, imagelar ham delete bolishi kk
+4. product ni delete qilganda, imagelar ham delete bolishi kk ✅
 5. fixtures qoshish kk (5ta product, 3ta user, 4ta category) [yml] ✅
 6. product detailda author product larni chiqarish ✅
 
@@ -27,6 +27,16 @@ hometask
 7. adminkadagi foreign ni pagenation li qilish yoki search ✅
 8. tag qoshish kk (adminkada ntasini tanlay olishi kk)  ✅
 9. LATEST PRODUCTS ✅
+
+
+3-day
+10. product-list
+11. product-detail
+12.
+
+
+1000 + 100
+
 
 
 pyscript

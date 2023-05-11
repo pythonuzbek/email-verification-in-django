@@ -1,17 +1,15 @@
 from django.contrib import messages
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.tokens import default_token_generator
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_str
 from django.utils.http import urlsafe_base64_decode
-from django.views.generic import TemplateView
 
 from shared.decorators import anonymous_required
+from shared.utils.send_to_email import send_email
 from users.forms import RegisterForm, LoginForm
 from users.models import User
-from users.send_to_email import send_email
-from users.token import account_activation_token
+from users.utils.token import account_activation_token
 
 
 @anonymous_required(redirect_url='/')

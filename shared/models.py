@@ -77,9 +77,8 @@ class BaseIDModel(Model):
 
 
 class BaseDateModel(Model):
-    updated_at = DateTimeField(auto_now=True)
+    updated_at = DateTimeField(auto_now=True, null=True)
     created_at = DateTimeField(auto_now_add=True)
 
-    class Meta:
-        abstract = True
-
+    class Meta(BaseMeta):
+        pass

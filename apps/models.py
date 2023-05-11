@@ -23,14 +23,14 @@ class Tag(BaseIDModel):
         return self.name
 
 
-class Product(BaseIDModel,BaseDateModel):
+class Product(BaseIDModel, BaseDateModel):
     name = CharField(max_length=255)
     price = PositiveIntegerField()
     discount = SmallIntegerField(default=0)
     detail = RichTextField()
     quantity = PositiveIntegerField(default=0)
     category = ForeignKey('apps.Category', CASCADE)
-    tag = ManyToManyField('apps.Tag','tags',null=True,blank=True)
+    tag = ManyToManyField('apps.Tag', 'tags', blank=True)
     author = ForeignKey('users.User', CASCADE)
 
     def __str__(self):
@@ -48,7 +48,7 @@ class ProductImage(BaseIDModel):
         VIDEOS = 'videos', 'Videolar'
 
     image = ImageField(upload_to=upload_name)
-    product = ForeignKey('apps.Product', CASCADE,'images')
+    product = ForeignKey('apps.Product', CASCADE, 'images')
     type = CharField(max_length=15, choices=Type.choices)
 
 

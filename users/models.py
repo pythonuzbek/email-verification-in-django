@@ -1,14 +1,16 @@
 from django.contrib.auth.base_user import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
-from django.db.models import BooleanField, CharField, DateTimeField, EmailField
+from django.db.models import BooleanField, CharField, DateTimeField, EmailField, Model, IntegerField, \
+    PositiveIntegerField, TextField
 
-from shared.models import CustomUserManager
+from shared.models import CustomUserManager, BaseDateModel
 
 
 class User(AbstractBaseUser, PermissionsMixin):
     first_name = CharField('first name', max_length=150, blank=True)
     last_name = CharField('last name', max_length=150, blank=True)
     email = EmailField('email address', unique=True)
+    balance = PositiveIntegerField('balance', default=0)
     is_staff = BooleanField(
         'staff status',
         default=False,
@@ -22,8 +24,25 @@ class User(AbstractBaseUser, PermissionsMixin):
             "Unselect this instead of deleting accounts."
         )
     )
-    date_joined = DateTimeField('date joined', auto_now_add=True)
+    date_joined = DateTimeField('date joined', auto_now_add=True, editable=False)
     objects = CustomUserManager()
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'
+
+# nulled full template
+# crack
+
+# class Notification(BaseDateModel):
+#     title = CharField(max_length=255)
+#
+
+class Settings(Model):
+    phone = CharField(max_length=25)
+    email = EmailField(max_length=125)
+    about_us = CharField(max_length=512)
+
+
+class Faq(Model):
+    question = CharField(max_length=255)
+    text = TextField()
