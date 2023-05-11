@@ -19,15 +19,19 @@ hometask
 3. verification email ✅
 4. product ni delete qilganda, imagelar ham delete bolishi kk
 5. fixtures qoshish kk (5ta product, 3ta user, 4ta category) [yml] ✅
-6. product detailda author product larni chiqarish
+6. product detailda author product larni chiqarish ✅
 
 
 
 2-day
-7. adminkadagi foreign ni pagenation li qilish yoki search
-8. tag qoshish kk (adminkada ntasini tanlay olishi kk)
-9. LATEST PRODUCTS
+7. adminkadagi foreign ni pagenation li qilish yoki search ✅
+8. tag qoshish kk (adminkada ntasini tanlay olishi kk)  ✅
+9. LATEST PRODUCTS ✅
 
 
 pyscript
 htmx
+
+
+
+
